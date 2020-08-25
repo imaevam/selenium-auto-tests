@@ -1,19 +1,32 @@
 from selenium import webdriver
-import os
 import time
-
-browser = webdriver.Chrome()
-link = 'http://suninjuly.github.io/file_input.html'
+import os
 
 try:
+    link = "http://suninjuly.github.io/file_input.html"
+    browser = webdriver.Chrome()
     browser.get(link)
-    browser.find_element_by_name('firstname').send_keys('M')
-    browser.find_element_by_name('lastname').send_keys('I')
-    browser.find_element_by_name('email').send_keys('b')
-    current_dir = os.path.abspath(os.path.dirname(__file__))
-    file_path = os.path.join(current_dir, 'file.txt')  # добавляем к этому пути имя файла
-    browser.find_element_by_id('file').send_keys(file_path)
-    browser.find_element_by_css_selector('button[type="submit"]').click()
+
+    # Ваш код, который заполняет обязательные поля
+    input1 = browser.find_element_by_css_selector("div.form-group input[name = firstname]")
+    input1.send_keys("I")
+    input2 = browser.find_element_by_css_selector("div.form-group input[name = lastname]")
+    input2.send_keys("P")
+    input3 = browser.find_element_by_css_selector("div.form-group input[name = email]")
+    input3.send_keys("bk")
+
+    current_dir = os.path.abspath(os.path.dirname(__file__))    # получаем путь к директории текущего исполняемого файла
+    file_path = os.path.join(current_dir, 'file.txt')           # добавляем к этому пути имя файла
+    element = browser.find_element_by_id('file')
+    element.send_keys(file_path)
+
+    # Отправляем заполненную форму
+    button = browser.find_element_by_class_name("btn.btn-primary")
+    button.click()
+
+
 finally:
-    time.sleep(30)
-    c
+    # ожидание чтобы визуально оценить результаты прохождения скрипта
+    time.sleep(3)
+    # закрываем браузер после всех манипуляций
+    browser.quit()
